@@ -16,45 +16,45 @@ public class Emergency {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
-    private int population;
+    private String title;
+    private String description;
 
     public Emergency() {
     }
 
-    public Emergency(Long id, String name, int population) {
+    public Emergency(Long id, String title, String description) {
 
         this.id = id;
-        this.name = name;
-        this.population = population;
+        this.title = title;
+        this.description = description;
     }
 
     public Long getId() {
         return id;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public int getPopulation() {
-        return population;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPopulation(int population) {
-        this.population = population;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.name);
-        hash = 79 * hash + this.population;
+        hash = 79 * hash + Objects.hashCode(this.title);
+        hash = 79 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
@@ -70,10 +70,10 @@ public class Emergency {
             return false;
         }
         final Emergency other = (Emergency) obj;
-        if (this.population != other.population) {
+        if (this.description != other.description) {
             return false;
         }
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.title, other.title)) {
             return false;
         }
         return Objects.equals(this.id, other.id);
@@ -83,8 +83,8 @@ public class Emergency {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Emergency{");
         sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append(", population=").append(population);
+        sb.append(", title='").append(title).append('\'');
+        sb.append(", description=").append(description);
         sb.append('}');
         return sb.toString();
     }
