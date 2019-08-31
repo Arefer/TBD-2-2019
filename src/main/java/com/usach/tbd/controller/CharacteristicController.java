@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/Characteristics")
+@RequestMapping(value = "/characteristics")
 public class CharacteristicController {
     private CharacteristicRepository characteristicRepository;
 
@@ -20,7 +20,7 @@ public class CharacteristicController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<Characteristic> listCharacteristics() {
+    public List<Characteristic> listCharacteristic() {
         return (List<Characteristic>) this.characteristicRepository.findAll();
     }
 

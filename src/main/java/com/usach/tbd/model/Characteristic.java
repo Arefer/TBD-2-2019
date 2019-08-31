@@ -16,15 +16,17 @@ public class Characteristic {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String name;
+    private String description;
+
 
     public Characteristic() {
     }
 
-    public Characteristic(Long id, String name) {
+    public Characteristic(Long id, String name, int population) {
 
         this.id = id;
-        this.name = name;
+        this.description = name;
+
     }
 
     public Long getId() {
@@ -32,18 +34,19 @@ public class Characteristic {
     }
 
     public String getName() {
-        return name;
+        return description;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.description = name;
     }
+
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.name);
+        hash = 79 * hash + Objects.hashCode(this.description);
         return hash;
     }
 
@@ -59,7 +62,7 @@ public class Characteristic {
             return false;
         }
         final Characteristic other = (Characteristic) obj;
-        if (!Objects.equals(this.name, other.name)) {
+        if (!Objects.equals(this.description, other.description)) {
             return false;
         }
         return Objects.equals(this.id, other.id);
@@ -69,7 +72,7 @@ public class Characteristic {
     public String toString() {
         final StringBuilder sb = new StringBuilder("Characteristic{");
         sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
+        sb.append(", name='").append(description).append('\'');
         sb.append('}');
         return sb.toString();
     }
