@@ -1,11 +1,12 @@
 package com.usach.tbd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Date;
 import java.util.Objects;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Set;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "emergencies")
@@ -16,8 +17,43 @@ public class Emergency {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @NotNull
     private String title;
+
+    @NotNull
     private String description;
+
+    /*
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_at")
+    private Date postedAt = new Date();
+
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "last_updated_at")
+    private Date lastUpdatedAt = new Date();
+    */
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "characteristic_emergency", joinColumns = @JoinColumn(name = "emergency_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
+    private Set<Characteristic> characteristics;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "emergency_volunteer", joinColumns = @JoinColumn(name = "volunteer_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "emergency_id", referencedColumnName = "id"))
+    private Set<Volunteer> volunteers;
+
+    @NotNull
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "user_id", nullable = false)
+    @JsonIgnore
+    private User user;
+
+    @NotNull
+    @OneToMany(mappedBy = "emergency", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Task> tasks;
 
     public Emergency() {
     }
@@ -33,6 +69,7 @@ public class Emergency {
         return id;
     }
 
+    //Title
     public String getTitle() {
         return title;
     }
@@ -41,6 +78,7 @@ public class Emergency {
         this.title = title;
     }
 
+    //Description
     public String getDescription() {
         return description;
     }
@@ -48,6 +86,18 @@ public class Emergency {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    // characteristic
+    public Set<Characteristic> getCharacteristics() {
+        return characteristics;
+    }
+
+    public void setCharacteristics(Set<Characteristic> characteristics) {
+        this.characteristics = characteristics;
+    }
+
+
+
 
     @Override
     public int hashCode() {
@@ -58,35 +108,5 @@ public class Emergency {
         return hash;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Emergency other = (Emergency) obj;
-        if (this.description != other.description) {
-            return false;
-        }
-        if (!Objects.equals(this.title, other.title)) {
-            return false;
-        }
-        return Objects.equals(this.id, other.id);
-    }
-
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("Emergency{");
-        sb.append("id=").append(id);
-        sb.append(", title='").append(title).append('\'');
-        sb.append(", description=").append(description);
-        sb.append('}');
-        return sb.toString();
-    }
 
 }
