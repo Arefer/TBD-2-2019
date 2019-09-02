@@ -45,4 +45,9 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
     private Set<Characteristic> characteristics;
 
+
+    public Long getId() {
+        return id;
+    }
+
 }
