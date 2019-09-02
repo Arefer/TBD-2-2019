@@ -1,16 +1,15 @@
 package com.usach.tbd.controller;
 
+
 import com.usach.tbd.model.Task;
 import com.usach.tbd.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/tasks")
-
 public class TaskController {
     private TaskRepository taskRepository;
 
@@ -21,7 +20,7 @@ public class TaskController {
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
-    public List<Task> listEmergencies() {
+    public List<Task> listTaks() {
         return (List<Task>) this.taskRepository.findAll();
     }
 
@@ -40,7 +39,7 @@ public class TaskController {
     @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
     @ResponseBody
     public Task updateTask(@PathVariable String id, @RequestBody Task task) {
-        if (!task.getId().equals(id)){
+        if (!task.getId().equals(id)) {
             return null;
         }
         return this.taskRepository.save(task);

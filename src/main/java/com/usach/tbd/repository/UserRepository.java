@@ -1,10 +1,9 @@
 package com.usach.tbd.repository;
-
-import com.usach.tbd.model.Task;
+import com.usach.tbd.model.User;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface TaskRepository extends CrudRepository<Task, Long> {
+public interface UserRepository extends CrudRepository<User, Long> {
 
 }
