@@ -20,10 +20,12 @@ public class Volunteer {
     private String password;
     @NotNull
     private String rut;
-    @NotNull
-    private String telephone;
-    @NotNull
+
+    private String phone;
+
     private String email;
+
+    private String address;
 
     @ManyToMany(mappedBy = "volunteers")
     private Set<Task> tasks;
@@ -89,12 +91,12 @@ public class Volunteer {
     }
 
     //Telephone
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     //Email
@@ -106,9 +108,13 @@ public class Volunteer {
         this.email = email;
     }
 
+    public String getAddress() { return address; }
+
+    public void setAddress(String address) { this.address = address; }
+
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, rut, telephone, email, characteristics);
+        return Objects.hash(id, name, password, rut, phone, email, characteristics);
     }
 
     @Override
@@ -139,7 +145,7 @@ public class Volunteer {
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
                 ", rut='" + rut + '\'' +
-                ", telephone='" + telephone + '\'' +
+                ", telephone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", characteristics=" + characteristics +
                 '}';
