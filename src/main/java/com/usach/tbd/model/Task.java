@@ -18,10 +18,12 @@ public class Task {
 
     @NotNull
     private String title;
-    @NotNull
+
     private String description;
-    @NotNull
-    private String type;
+
+    private int priority;
+
+    private boolean status;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -56,9 +58,13 @@ public class Task {
         return description;
     }
 
-    public String getType() {
-        return type;
-    }
+    public int getPriority() { return priority; }
+
+    public void setPriority(int priority) { this.priority = priority; }
+
+    public boolean getStatus() { return status; }
+
+    public void setStatus(boolean status) { this.status = status; }
 
     public User getUser() {
         return user;
