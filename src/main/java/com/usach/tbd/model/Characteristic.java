@@ -15,6 +15,8 @@ public class Characteristic {
 
     private String name;
 
+    private String description;
+
     @ManyToMany(mappedBy = "characteristics")
     private Set<Emergency> emergencies;
 
@@ -47,6 +49,9 @@ public class Characteristic {
         this.name = name;
     }
 
+    public String getDescription() { return description; }
+
+    public void setDescription(String description) { this.description = description; }
     @Override
     public int hashCode() {
         int hash = 7;
