@@ -2,7 +2,6 @@ package com.usach.tbd.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -21,7 +20,7 @@ public class User {
     @NotNull
     private String rut;
     @NotNull
-    private String telephone;
+    private String phone;
     @NotNull
     private String email;
 
@@ -82,12 +81,12 @@ public class User {
     }
 
     //Telephone
-    public String getTelephone() {
-        return telephone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     //Email
