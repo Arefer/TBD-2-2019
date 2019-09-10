@@ -23,6 +23,12 @@ public class Emergency {
     @NotNull
     private String description;
 
+    private String location;
+
+    private boolean status;
+
+    private String type;
+
     /*
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -96,8 +102,19 @@ public class Emergency {
         this.characteristics = characteristics;
     }
 
+    public String getLocation() {
+        return location;
+    }
 
+    public void setLocation(String location) { this.location = location; }
 
+    public boolean getStatus() { return status; }
+
+    public void setStatus(boolean status) { this.status = status; }
+
+    public String getType() { return type; }
+
+    public void setType(String type) { this.type = type; }
 
     @Override
     public int hashCode() {
