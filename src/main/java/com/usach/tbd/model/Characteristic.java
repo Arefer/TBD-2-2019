@@ -1,5 +1,9 @@
 package com.usach.tbd.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
@@ -10,12 +14,22 @@ import javax.persistence.*;
 public class Characteristic {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
 
     private String description;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    @Column(name = "created_at")
+    private Date postedAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    @Column(name = "last_updated_at")
+    private Date lastUpdatedAt = new Date();
 
     @ManyToMany(mappedBy = "characteristics")
     private Set<Emergency> emergencies;
@@ -52,6 +66,11 @@ public class Characteristic {
     public String getDescription() { return description; }
 
     public void setDescription(String description) { this.description = description; }
+
+    public void setEmergencies(Set<Emergency> emergencies) {
+        this.emergencies = emergencies;
+    }
+
     @Override
     public int hashCode() {
         int hash = 7;
