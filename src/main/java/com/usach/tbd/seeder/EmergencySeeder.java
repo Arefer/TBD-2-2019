@@ -4,9 +4,11 @@ import com.github.javafaker.Faker;
 import com.usach.tbd.model.Emergency;
 import com.usach.tbd.model.Characteristic;
 import com.usach.tbd.model.User;
+import com.usach.tbd.model.Volunteer;
 import com.usach.tbd.repository.EmergencyRepository;
 import com.usach.tbd.repository.CharacteristicRepository;
 import com.usach.tbd.repository.UserRepository;
+import com.usach.tbd.repository.VolunteerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Component;
@@ -20,12 +22,13 @@ import java.util.Set;
 public class EmergencySeeder {
 
     private Faker faker = new Faker(new Locale("es"));
-    private int numberRecords;
 
     @Autowired
     private EmergencyRepository emergencyRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private VolunteerRepository volunteerRepository;
     @Autowired
     private CharacteristicRepository characteristicRepository;
 
@@ -33,34 +36,39 @@ public class EmergencySeeder {
 
         Emergency emergency;
         User u;
-        Characteristic characteristic;
+
+        Long userQty = userRepository.count();
+        Long characteristicQty = characteristicRepository.count();
+        Long volunteerQty = volunteerRepository.count();
 
         for(int i = 0; i < numberRecords;i++) {
 
 
             emergency = new Emergency();
             emergency.setTitle(faker.job().title());
-            emergency.setDescription(faker.lorem().paragraph(3));
+            emergency.setDescription(faker.lorem().paragraph(2));
             emergency.setType(faker.job().field());
             emergency.setLocation(faker.address().fullAddress());
             emergency.setStatus(faker.bool().bool());
 
             u =  new User();
-            Long qty = userRepository.count();
-            u = userRepository.findById((faker.number().numberBetween(1,qty))).get();
+            u = userRepository.findById((faker.number().numberBetween(1,userQty))).get();
             emergency.setUser(u);
 
 
             //Many to many relation
-            Set<Characteristic> characteristicSet = new HashSet<>();
-            //emergency.setCharacteristics(characteristicSet);
 
-            qty = characteristicRepository.count();
-            for(int n=0;n<2;n++){
-                characteristic = characteristicRepository.findById((faker.number().numberBetween(1,qty))).get();
-                characteristicSet.add(characteristic);
+            emergency.setCharacteristics(new HashSet<>());
+            emergency.setVolunteers(new HashSet<>());
+
+            for(int n=0;n<4;n++){
+                emergency.getCharacteristics().add(characteristicRepository.findById(faker.number().numberBetween(1,characteristicQty)).get());
             }
-            //emergency.setCharacteristics(characteristicSet);
+
+            for(int n=0;n<1;n++) {
+                emergency.getVolunteers().add(volunteerRepository.findById(faker.number().numberBetween(1, volunteerQty)).get());
+            }
+
 
             emergencyRepository.save(emergency);
 

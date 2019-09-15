@@ -49,12 +49,12 @@ public class Task {
     private Emergency emergency;
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "task_volunteer", joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "volunteer_id", referencedColumnName = "id"))
     private Set<Volunteer> volunteers;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "characteristic_task", joinColumns = @JoinColumn(name = "task_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
     private Set<Characteristic> characteristics;

@@ -43,12 +43,12 @@ public class Emergency {
     private Date lastUpdatedAt = new Date();
 
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "characteristic_emergency", joinColumns = @JoinColumn(name = "emergency_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
     private Set<Characteristic> characteristics;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "emergency_volunteer", joinColumns = @JoinColumn(name = "volunteer_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "emergency_id", referencedColumnName = "id"))
     private Set<Volunteer> volunteers;
@@ -127,6 +127,14 @@ public class Emergency {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+    }
+
+    public void setVolunteers(Set<Volunteer> volunteers) {
+        this.volunteers = volunteers;
+    }
+
+    public Set<Volunteer> getVolunteers() {
+        return volunteers;
     }
 
     @Override

@@ -41,13 +41,14 @@ public class Volunteer {
     @Column(name = "last_updated_at")
     private Date lastUpdatedAt = new Date();
 
-    @ManyToMany(mappedBy = "volunteers")
+    @ManyToMany(mappedBy = "volunteers", fetch=FetchType.EAGER)
     private Set<Task> tasks;
 
-    @ManyToMany(mappedBy = "volunteers")
+    @ManyToMany(mappedBy = "volunteers", fetch=FetchType.EAGER)
     private Set<Emergency> emergencies;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE,
+                fetch=FetchType.EAGER)
     @JoinTable(name = "characteristic_volunteer", joinColumns = @JoinColumn(name = "volunteer_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
     private Set<Characteristic> characteristics;
@@ -128,7 +129,7 @@ public class Volunteer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, rut, phone, email, characteristics);
+        return Objects.hash(id, name, password, rut, phone, email, address, postedAt, lastUpdatedAt, tasks, emergencies, characteristics);
     }
 
     @Override
