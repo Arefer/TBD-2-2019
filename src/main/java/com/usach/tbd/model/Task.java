@@ -1,9 +1,12 @@
 package com.usach.tbd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -13,7 +16,7 @@ import java.util.Set;
 public class Task {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -24,6 +27,16 @@ public class Task {
     private int priority;
 
     private boolean status;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    @Column(name = "created_at")
+    private Date postedAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    @Column(name = "last_updated_at")
+    private Date lastUpdatedAt = new Date();
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
@@ -54,8 +67,16 @@ public class Task {
         return title;
     }
 
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getPriority() { return priority; }
@@ -70,16 +91,32 @@ public class Task {
         return user;
     }
 
+    public void setUser(User user) {
+        this.user = user;
+    }
+
     public Emergency getEmergency() {
         return emergency;
+    }
+
+    public void setEmergency(Emergency emergency) {
+        this.emergency = emergency;
     }
 
     public Set<Volunteer> getVolunteers() {
         return volunteers;
     }
 
+    public void setVolunteers(Set<Volunteer> volunteers) {
+        this.volunteers = volunteers;
+    }
+
+
     public Set<Characteristic> getCharacteristics() {
         return characteristics;
     }
 
+    public void setCharacteristics(Set<Characteristic> characteristics) {
+        this.characteristics = characteristics;
+    }
 }

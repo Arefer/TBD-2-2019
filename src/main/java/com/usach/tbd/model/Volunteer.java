@@ -1,7 +1,11 @@
 package com.usach.tbd.model;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -11,7 +15,7 @@ import java.util.Set;
 public class Volunteer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -26,6 +30,16 @@ public class Volunteer {
     private String email;
 
     private String address;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
+    @Column(name = "created_at")
+    private Date postedAt = new Date();
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
+    @Column(name = "last_updated_at")
+    private Date lastUpdatedAt = new Date();
 
     @ManyToMany(mappedBy = "volunteers")
     private Set<Task> tasks;

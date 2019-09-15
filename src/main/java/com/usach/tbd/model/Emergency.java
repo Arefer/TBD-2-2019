@@ -1,6 +1,8 @@
 package com.usach.tbd.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
 import java.util.Objects;
@@ -14,7 +16,7 @@ import javax.validation.constraints.NotNull;
 public class Emergency {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -29,17 +31,17 @@ public class Emergency {
 
     private String type;
 
-    /*
-    @NotNull
+
     @Temporal(TemporalType.TIMESTAMP)
+    @CreatedDate
     @Column(name = "created_at")
     private Date postedAt = new Date();
 
-    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @LastModifiedDate
     @Column(name = "last_updated_at")
     private Date lastUpdatedAt = new Date();
-    */
+
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "characteristic_emergency", joinColumns = @JoinColumn(name = "emergency_id", referencedColumnName = "id"),
@@ -57,7 +59,6 @@ public class Emergency {
     @JsonIgnore
     private User user;
 
-    @NotNull
     @OneToMany(mappedBy = "emergency", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Task> tasks;
 
@@ -115,6 +116,18 @@ public class Emergency {
     public String getType() { return type; }
 
     public void setType(String type) { this.type = type; }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
 
     @Override
     public int hashCode() {
