@@ -18,17 +18,14 @@ public class Volunteer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
     private String name;
 
     private String lastName;
 
     private String userName;
 
-    @NotNull
     private String password;
 
-    @NotNull
     private String rut;
 
     private char sex;
@@ -163,28 +160,31 @@ public class Volunteer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, password, rut, phone, email, address, postedAt, lastUpdatedAt, tasks, emergencies, characteristics);
+        return Objects.hash(getId(), getName(), getLastName(), getUserName(), getPassword(), getRut(), getSex(), getPhone(), getEmail(), getAddress(), getLatitude(), getLongitude(), postedAt, lastUpdatedAt, tasks, emergencies, getCharacteristics());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final com.usach.tbd.model.Volunteer other = (com.usach.tbd.model.Volunteer) obj;
-        if (this.password != other.password) {
-            return false;
-        }
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return Objects.equals(this.id, other.id);
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Volunteer)) return false;
+        Volunteer volunteer = (Volunteer) o;
+        return getSex() == volunteer.getSex() &&
+                Float.compare(volunteer.getLatitude(), getLatitude()) == 0 &&
+                Float.compare(volunteer.getLongitude(), getLongitude()) == 0 &&
+                getId().equals(volunteer.getId()) &&
+                getName().equals(volunteer.getName()) &&
+                getLastName().equals(volunteer.getLastName()) &&
+                getUserName().equals(volunteer.getUserName()) &&
+                getPassword().equals(volunteer.getPassword()) &&
+                getRut().equals(volunteer.getRut()) &&
+                getPhone().equals(volunteer.getPhone()) &&
+                getEmail().equals(volunteer.getEmail()) &&
+                getAddress().equals(volunteer.getAddress()) &&
+                postedAt.equals(volunteer.postedAt) &&
+                lastUpdatedAt.equals(volunteer.lastUpdatedAt) &&
+                tasks.equals(volunteer.tasks) &&
+                emergencies.equals(volunteer.emergencies) &&
+                getCharacteristics().equals(volunteer.getCharacteristics());
     }
 
     @Override
@@ -192,14 +192,23 @@ public class Volunteer {
         return "Volunteer{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", userName='" + userName + '\'' +
                 ", password='" + password + '\'' +
                 ", rut='" + rut + '\'' +
-                ", telephone='" + phone + '\'' +
+                ", sex=" + sex +
+                ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
+                ", address='" + address + '\'' +
+                ", latitude=" + latitude +
+                ", longitude=" + longitude +
+                ", postedAt=" + postedAt +
+                ", lastUpdatedAt=" + lastUpdatedAt +
+                ", tasks=" + tasks +
+                ", emergencies=" + emergencies +
                 ", characteristics=" + characteristics +
                 '}';
     }
-
 }
 
 
