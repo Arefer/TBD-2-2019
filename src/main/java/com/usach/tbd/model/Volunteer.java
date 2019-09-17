@@ -28,7 +28,7 @@ public class Volunteer {
 
     private String rut;
 
-    private char sex;
+    private String sex;
 
     private String phone;
 
@@ -121,9 +121,9 @@ public class Volunteer {
     }
 
     //Sex
-    public char getSex() { return sex; }
+    public String getSex() { return sex; }
 
-    public void setSex(char sex) { this.sex = sex; }
+    public void setSex(String sex) { this.sex = sex; }
 
     //Telephone
     public String getPhone() {
