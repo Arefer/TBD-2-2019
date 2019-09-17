@@ -28,7 +28,7 @@ public class DBseeder {
         characteristicSeeder.characteristicSeeder(5);
         roleSeeder.roleSeeder();
         userSeeder.userSeeder(10);
-        volunteerSeeder.volunteerSeeder(10);
+        // volunteerSeeder.volunteerSeeder(10);
         emergencySeeder.emergencySeeder(10);
         taskSeeder.taskSeeder(10);
 

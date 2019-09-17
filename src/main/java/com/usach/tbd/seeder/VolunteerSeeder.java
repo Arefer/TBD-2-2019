@@ -22,7 +22,7 @@ public class VolunteerSeeder {
     @Autowired
     private VolunteerRepository volunteerRepository;
 
-    public void volunteerSeeder(int numberRecords){
+    /*public void volunteerSeeder(int numberRecords){
 
         Volunteer volunteer;
 
@@ -54,5 +54,5 @@ public class VolunteerSeeder {
             volunteerRepository.save(volunteer);
         }
 
-    }
+    }*/
 }

@@ -56,11 +56,8 @@ public class Volunteer {
     @ManyToMany(mappedBy = "volunteers", fetch=FetchType.EAGER)
     private Set<Emergency> emergencies;
 
-    @ManyToMany(cascade = CascadeType.MERGE,
-                fetch=FetchType.EAGER)
-    @JoinTable(name = "characteristic_volunteer", joinColumns = @JoinColumn(name = "volunteer_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
-    private Set<Characteristic> characteristics;
+    @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL )
+    private Set<CharacteristicVolunteer> characteristics;
 
 
 
@@ -103,11 +100,11 @@ public class Volunteer {
     }
 
     // characteristics
-    public Set<Characteristic> getCharacteristics() {
+    public Set<CharacteristicVolunteer> getCharacteristics() {
         return characteristics;
     }
 
-    public void setCharacteristics(Set<Characteristic> characteristics) {
+    public void setCharacteristics(Set<CharacteristicVolunteer> characteristics) {
         this.characteristics = characteristics;
     }
 

@@ -34,8 +34,8 @@ public class Characteristic {
     @ManyToMany(mappedBy = "characteristics")
     private Set<Emergency> emergencies;
 
-    @ManyToMany(mappedBy = "characteristics")
-    private Set<Volunteer> volunteers;
+    @OneToMany(mappedBy = "characteristic")
+    private Set<CharacteristicVolunteer> volunteers;
 
     @ManyToMany(mappedBy = "characteristics")
     private Set<Task> tasks;
@@ -70,6 +70,10 @@ public class Characteristic {
     public void setEmergencies(Set<Emergency> emergencies) {
         this.emergencies = emergencies;
     }
+
+    public Set<CharacteristicVolunteer> getVolunteers() { return volunteers; }
+
+    public void setVolunteers(Set<CharacteristicVolunteer> volunteers) { this.volunteers = volunteers; }
 
     @Override
     public int hashCode() {

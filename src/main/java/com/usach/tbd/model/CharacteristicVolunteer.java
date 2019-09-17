@@ -17,6 +17,8 @@ public class CharacteristicVolunteer {
     @MapsId("volunteerId")
     private Volunteer volunteer;
 
+    private int score;
+
     public CharacteristicVolunteer() { }
 
     public CharacteristicVolunteer(Characteristic c, Volunteer v){
@@ -49,18 +51,27 @@ public class CharacteristicVolunteer {
         this.volunteer = volunteer;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof CharacteristicVolunteer)) return false;
         CharacteristicVolunteer that = (CharacteristicVolunteer) o;
-        return getId().equals(that.getId()) &&
+        return getScore() == that.getScore() &&
+                getId().equals(that.getId()) &&
                 getCharacteristic().equals(that.getCharacteristic()) &&
                 getVolunteer().equals(that.getVolunteer());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCharacteristic(), getVolunteer());
+        return Objects.hash(getId(), getCharacteristic(), getVolunteer(), getScore());
     }
 }
