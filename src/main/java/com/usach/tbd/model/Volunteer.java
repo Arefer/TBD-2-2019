@@ -20,16 +20,28 @@ public class Volunteer {
 
     @NotNull
     private String name;
+
+    private String lastName;
+
+    private String userName;
+
     @NotNull
     private String password;
+
     @NotNull
     private String rut;
+
+    private char sex;
 
     private String phone;
 
     private String email;
 
     private String address;
+
+    private float latitude;
+
+    private float longitude;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate
@@ -70,13 +82,19 @@ public class Volunteer {
     }
 
     //Name
-    public String getName() {
-        return name;
-    }
+    public String getName() { return name; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public void setName(String name) { this.name = name; }
+
+    //Last Name
+    public String getLastName() { return lastName; }
+
+    public void setLastName(String lastName) { this.lastName = lastName; }
+
+    //User Name
+    public String getUserName() { return userName; }
+
+    public void setUserName(String userName) { this.userName = userName; }
 
     //Password
     public String getPassword() {
@@ -105,6 +123,11 @@ public class Volunteer {
         this.rut = rut;
     }
 
+    //Sex
+    public char getSex() { return sex; }
+
+    public void setSex(char sex) { this.sex = sex; }
+
     //Telephone
     public String getPhone() {
         return phone;
@@ -123,9 +146,20 @@ public class Volunteer {
         this.email = email;
     }
 
+    //Address
     public String getAddress() { return address; }
 
     public void setAddress(String address) { this.address = address; }
+
+    //Latitude
+    public float getLatitude() { return latitude; }
+
+    public void setLatitude(float latitude) { this.latitude = latitude; }
+
+    //Longitude
+    public float getLongitude() { return longitude; }
+
+    public void setLongitude(float longitude) { this.longitude = longitude; }
 
     @Override
     public int hashCode() {
