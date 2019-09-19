@@ -1,13 +1,15 @@
 package com.usach.tbd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Entity
 @Table(name = "volunteers")
@@ -57,9 +59,8 @@ public class Volunteer {
     private Set<Emergency> emergencies;
 
     @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL )
-    private Set<CharacteristicVolunteer> characteristics;
-
-
+    @JsonIgnoreProperties("volunteer")
+    private Set<CharacteristicVolunteer> characteristics = new HashSet<>();
 
     public Volunteer() {
     }
@@ -106,6 +107,13 @@ public class Volunteer {
 
     public void setCharacteristics(Set<CharacteristicVolunteer> characteristics) {
         this.characteristics = characteristics;
+    }
+
+    public void addCharacteristic(Characteristic characteristic, int score){
+        CharacteristicVolunteerId cvid = new CharacteristicVolunteerId(characteristic.getId(), this.id);
+        CharacteristicVolunteer cv = new CharacteristicVolunteer(this, characteristic, score);
+        cv.setId(cvid);
+        characteristics.add(cv);
     }
 
     //Rut
@@ -157,7 +165,7 @@ public class Volunteer {
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName(), getLastName(), getUserName(), getPassword(), getRut(), getSex(), getPhone(), getEmail(), getAddress(), getLatitude(), getLongitude(), postedAt, lastUpdatedAt, tasks, emergencies, getCharacteristics());
+        return Objects.hash(getId(), getName(), getLastName(), getUserName(), getPassword(), getRut(), getSex(), getPhone(), getEmail(), getAddress(), getLatitude(), getLongitude());
     }
 
     @Override
@@ -165,7 +173,7 @@ public class Volunteer {
         if (this == o) return true;
         if (!(o instanceof Volunteer)) return false;
         Volunteer volunteer = (Volunteer) o;
-        return getSex() == volunteer.getSex() &&
+        return getSex().equals(volunteer.getSex()) &&
                 Float.compare(volunteer.getLatitude(), getLatitude()) == 0 &&
                 Float.compare(volunteer.getLongitude(), getLongitude()) == 0 &&
                 getId().equals(volunteer.getId()) &&
@@ -177,11 +185,7 @@ public class Volunteer {
                 getPhone().equals(volunteer.getPhone()) &&
                 getEmail().equals(volunteer.getEmail()) &&
                 getAddress().equals(volunteer.getAddress()) &&
-                postedAt.equals(volunteer.postedAt) &&
-                lastUpdatedAt.equals(volunteer.lastUpdatedAt) &&
-                tasks.equals(volunteer.tasks) &&
-                emergencies.equals(volunteer.emergencies) &&
-                getCharacteristics().equals(volunteer.getCharacteristics());
+                postedAt.equals(volunteer.postedAt);
     }
 
     @Override
@@ -201,9 +205,6 @@ public class Volunteer {
                 ", longitude=" + longitude +
                 ", postedAt=" + postedAt +
                 ", lastUpdatedAt=" + lastUpdatedAt +
-                ", tasks=" + tasks +
-                ", emergencies=" + emergencies +
-                ", characteristics=" + characteristics +
                 '}';
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 import javax.persistence.*;
@@ -17,6 +18,7 @@ public class Characteristic {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique=true)
     private String name;
 
     private String description;
@@ -34,19 +36,15 @@ public class Characteristic {
     @ManyToMany(mappedBy = "characteristics")
     private Set<Emergency> emergencies;
 
-    @OneToMany(mappedBy = "characteristic")
-    private Set<CharacteristicVolunteer> volunteers;
 
     @ManyToMany(mappedBy = "characteristics")
     private Set<Task> tasks;
-
 
 
     public Characteristic() {
     }
 
     public Characteristic(Long id, String name) {
-
         this.id = id;
         this.name = name;
     }
@@ -71,43 +69,28 @@ public class Characteristic {
         this.emergencies = emergencies;
     }
 
-    public Set<CharacteristicVolunteer> getVolunteers() { return volunteers; }
-
-    public void setVolunteers(Set<CharacteristicVolunteer> volunteers) { this.volunteers = volunteers; }
-
     @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 79 * hash + Objects.hashCode(this.id);
-        hash = 79 * hash + Objects.hashCode(this.name);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Characteristic)) return false;
+        Characteristic that = (Characteristic) o;
+        return getName().equals(that.getName()) &&
+                Objects.equals(getDescription(), that.getDescription());
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Characteristic other = (Characteristic) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return Objects.equals(this.id, other.id);
+    public int hashCode() {
+        return Objects.hash(getName(), getDescription());
     }
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder("Characteristic{");
-        sb.append("id=").append(id);
-        sb.append(", name='").append(name).append('\'');
-        sb.append('}');
-        return sb.toString();
+        return "Characteristic{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", postedAt=" + postedAt +
+                ", lastUpdatedAt=" + lastUpdatedAt +
+                '}';
     }
-
 }

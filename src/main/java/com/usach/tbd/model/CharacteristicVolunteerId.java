@@ -1,9 +1,11 @@
 package com.usach.tbd.model;
 
 import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Embeddable
 public class CharacteristicVolunteerId implements Serializable {
     @Column(name = "characteristic_id")
     private Long characteristicId;
@@ -11,7 +13,7 @@ public class CharacteristicVolunteerId implements Serializable {
     @Column(name = "volunteer_id")
     private Long volunteerId;
 
-    public CharacteristicVolunteerId() { }
+    public CharacteristicVolunteerId(){ }
 
     public CharacteristicVolunteerId(Long characteristicId, Long volunteerId) {
         this.characteristicId = characteristicId;
@@ -22,16 +24,8 @@ public class CharacteristicVolunteerId implements Serializable {
         return characteristicId;
     }
 
-    public void setCharacteristicId(Long characteristicId) {
-        this.characteristicId = characteristicId;
-    }
-
     public Long getVolunteerId() {
         return volunteerId;
-    }
-
-    public void setVolunteerId(Long volunteerId) {
-        this.volunteerId = volunteerId;
     }
 
     @Override
@@ -46,5 +40,13 @@ public class CharacteristicVolunteerId implements Serializable {
     @Override
     public int hashCode() {
         return Objects.hash(getCharacteristicId(), getVolunteerId());
+    }
+
+    @Override
+    public String toString() {
+        return "CharacteristicVolunteerId{" +
+                "characteristicId=" + characteristicId +
+                ", volunteerId=" + volunteerId +
+                '}';
     }
 }

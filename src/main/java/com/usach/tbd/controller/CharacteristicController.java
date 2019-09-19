@@ -27,7 +27,14 @@ public class CharacteristicController {
     @RequestMapping(method = RequestMethod.POST)
     @ResponseBody
     public Characteristic createCharacteristic(@RequestBody Characteristic characteristic) {
-        return this.characteristicRepository.save(characteristic);
+        Characteristic c = characteristicRepository.findByName(characteristic.getName());
+        if (c != null) { // A record with the same name already exists
+            c.setDescription(characteristic.getDescription());
+            // Update record
+            return characteristicRepository.save(c);
+        }
+        // New record
+        return characteristicRepository.save(characteristic);
     }
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)

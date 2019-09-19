@@ -1,21 +1,31 @@
 package com.usach.tbd.controller;
 
 
+import com.usach.tbd.model.Characteristic;
 import com.usach.tbd.model.Volunteer;
+import com.usach.tbd.repository.CharacteristicRepository;
 import com.usach.tbd.repository.VolunteerRepository;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 
 @RestController
 @RequestMapping(value = "/volunteers")
 public class VolunteerController {
     private VolunteerRepository volunteerRepository;
+    private final CharacteristicController characteristicController;
 
     @Autowired
-    public VolunteerController(VolunteerRepository volunteerRepository) {
+    public VolunteerController(VolunteerRepository volunteerRepository, CharacteristicController characteristicController) {
         this.volunteerRepository = volunteerRepository;
+        this.characteristicController = characteristicController;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -53,5 +63,57 @@ public class VolunteerController {
             this.volunteerRepository.delete(volunteer.get());
         }
         return null;
+    }
+
+    @RequestMapping(value = "/{volunteerId}/add_characteristic/{score}", method = RequestMethod.POST)
+    @ResponseBody
+    public Volunteer addCharacteristic(@PathVariable Long volunteerId, @RequestBody Characteristic characteristic, @PathVariable int score){
+        Optional o_volunteer = volunteerRepository.findById(volunteerId);
+        Volunteer volunteer;
+        if (o_volunteer.isPresent()){
+            volunteer = (Volunteer)o_volunteer.get();
+        } else {
+            return null;
+        }
+        characteristic = characteristicController.createCharacteristic(characteristic);
+        volunteer.addCharacteristic(characteristic, score);
+        volunteerRepository.save(volunteer);
+        System.out.println(characteristic.toString());
+        return volunteer;
+    }
+
+    @RequestMapping(value = "/{volunteerId}/add_characteristics", method = RequestMethod.POST)
+    @ResponseBody
+    public Volunteer addCharacteristics(@PathVariable Long volunteerId, @RequestBody String characteristics){
+        Optional o_volunteer = volunteerRepository.findById(volunteerId);
+        Volunteer volunteer;
+        if (o_volunteer.isPresent()){
+            volunteer = (Volunteer)o_volunteer.get();
+        } else {
+            return null;
+        }
+
+        characteristics = characteristics.replaceAll("'", "\"");
+        System.out.println(characteristics);
+        JSONParser parser = new JSONParser();
+        JSONArray jsonArray = new JSONArray();
+        try{
+           jsonArray = (JSONArray) parser.parse(characteristics);
+        } catch (ParseException e){
+            e.printStackTrace();
+            return null;
+        }
+        Characteristic characteristic;
+
+        for (Object o: jsonArray) {
+            JSONObject jo = (JSONObject) o;
+            System.out.println("NAME: " + jo.get("name") + " - SCORE: " + jo.get("score"));
+            Characteristic c = new Characteristic();
+            c.setName((String)jo.get("name"));
+            characteristic = characteristicController.createCharacteristic(c);
+            volunteer.addCharacteristic(characteristic, Integer.parseInt(Long.toString((Long)jo.get("score"))));
+            volunteerRepository.save(volunteer);
+        }
+        return volunteer;
     }
 }

@@ -7,5 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CharacteristicRepository extends CrudRepository<Characteristic, Long> {
-
+    Characteristic findByName(String name);
 }

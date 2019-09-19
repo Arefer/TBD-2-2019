@@ -1,31 +1,37 @@
 package com.usach.tbd.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Objects;
 
-@Entity
+@Entity(name="CharacteristicVolunteer")
 @Table(name = "characteristic_volunteer")
-public class CharacteristicVolunteer {
+public class CharacteristicVolunteer implements Serializable {
+
     @EmbeddedId
     private CharacteristicVolunteerId id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("characteristicId")
-    private Characteristic characteristic;
+    @MapsId("volunteer_id")
+    //@JsonBackReference
+    private Volunteer volunteer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @MapsId("volunteerId")
-    private Volunteer volunteer;
+    @MapsId("characteristic_id")
+    private Characteristic characteristic;
 
     private int score;
 
     public CharacteristicVolunteer() { }
 
-    public CharacteristicVolunteer(Characteristic c, Volunteer v){
-        this.characteristic = c;
-        this.volunteer = v;
-        this.id = new CharacteristicVolunteerId(c.getId(), v.getId());
+    public CharacteristicVolunteer(Volunteer volunteer, Characteristic characteristic, int score){
+        this.volunteer = volunteer;
+        this.characteristic = characteristic;
+        this.score = score;
     }
+
 
     public CharacteristicVolunteerId getId() {
         return id;
@@ -33,14 +39,6 @@ public class CharacteristicVolunteer {
 
     public void setId(CharacteristicVolunteerId id) {
         this.id = id;
-    }
-
-    public Characteristic getCharacteristic() {
-        return characteristic;
-    }
-
-    public void setCharacteristic(Characteristic characteristic) {
-        this.characteristic = characteristic;
     }
 
     public Volunteer getVolunteer() {
@@ -65,13 +63,19 @@ public class CharacteristicVolunteer {
         if (!(o instanceof CharacteristicVolunteer)) return false;
         CharacteristicVolunteer that = (CharacteristicVolunteer) o;
         return getScore() == that.getScore() &&
-                getId().equals(that.getId()) &&
-                getCharacteristic().equals(that.getCharacteristic()) &&
-                getVolunteer().equals(that.getVolunteer());
+                id.equals(that.id);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getCharacteristic(), getVolunteer(), getScore());
+        return Objects.hash(id, getScore());
+    }
+
+    @Override
+    public String toString() {
+        return "CharacteristicVolunteer{" +
+                "id=" + id +
+                ", score=" + score +
+                '}';
     }
 }
