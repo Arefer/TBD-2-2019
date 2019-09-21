@@ -1,6 +1,7 @@
 package com.usach.tbd.controller;
 
 
+import com.usach.tbd.model.Emergency;
 import com.usach.tbd.model.Task;
 import com.usach.tbd.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,6 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(value = "/tasks")
 public class TaskController {
     private TaskRepository taskRepository;
@@ -29,6 +31,7 @@ public class TaskController {
     public Task createTask(@RequestBody Task task) {
         return this.taskRepository.save(task);
     }
+    
 
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     @ResponseBody
