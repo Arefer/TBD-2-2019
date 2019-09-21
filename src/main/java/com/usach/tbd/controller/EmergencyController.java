@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping(value = "/emergencies")
 public class EmergencyController {
     private EmergencyRepository emergencyRepository;
@@ -24,7 +25,7 @@ public class EmergencyController {
         return (List<Emergency>) this.emergencyRepository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value="/post", method = RequestMethod.POST)
     @ResponseBody
     public Emergency createEmergency(@RequestBody Emergency emergency) {
         return this.emergencyRepository.save(emergency);

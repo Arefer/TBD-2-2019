@@ -22,7 +22,6 @@ public class Emergency {
     @NotNull
     private String title;
 
-    @NotNull
     private String description;
 
     private String location;
@@ -53,7 +52,7 @@ public class Emergency {
             inverseJoinColumns = @JoinColumn(name = "emergency_id", referencedColumnName = "id"))
     private Set<Volunteer> volunteers;
 
-    @NotNull
+    // @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @JsonIgnore
