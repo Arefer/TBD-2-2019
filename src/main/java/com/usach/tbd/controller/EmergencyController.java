@@ -1,10 +1,12 @@
 package com.usach.tbd.controller;
 
 import com.usach.tbd.model.Emergency;
+import com.usach.tbd.model.Task;
 import com.usach.tbd.repository.EmergencyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,5 +56,17 @@ public class EmergencyController {
             this.emergencyRepository.delete(emergency.get());
         }
         return null;
+    }
+
+    @RequestMapping(value= "/{id}/tasks", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Task> emergencyTasks(@PathVariable Long id){
+        Optional oEmergency = emergencyRepository.findById(id);
+        if (oEmergency.isPresent()){
+            Emergency emergency = (Emergency)oEmergency.get();
+            return new ArrayList<>(emergency.getTasks());
+        } else {
+            return null;
+        }
     }
 }

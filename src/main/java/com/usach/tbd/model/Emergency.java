@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
@@ -116,6 +117,16 @@ public class Emergency {
 
     public void setType(String type) { this.type = type; }
 
+    public String getPostedAt() {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+
+        return sdf.format(postedAt);
+    }
+
+    public void setPostedAt(Date postedAt) {
+        this.postedAt = postedAt;
+    }
+
     public void setUser(User user) {
         this.user = user;
     }
@@ -127,6 +138,8 @@ public class Emergency {
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
     }
+
+    public Set<Task> getTasks() { return tasks; }
 
     public void setVolunteers(Set<Volunteer> volunteers) {
         this.volunteers = volunteers;
