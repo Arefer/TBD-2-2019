@@ -7,6 +7,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -58,8 +59,10 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
     private Set<Characteristic> characteristics;
 
-    public void addCharacteristic(Characteristic characteristic){
-        characteristics.add(characteristic);
+    public void addCharacteristic(List<Characteristic> characteristics){
+        for (Characteristic characteristic: characteristics){
+            characteristics.add(characteristic);
+        }
     }
 
     public Long getId() {
