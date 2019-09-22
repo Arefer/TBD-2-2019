@@ -17,6 +17,7 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/volunteers")
 public class VolunteerController {
     private VolunteerRepository volunteerRepository;

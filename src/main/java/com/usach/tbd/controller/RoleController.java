@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = "/roles")
 public class RoleController {
     private RoleRepository roleRepository;
