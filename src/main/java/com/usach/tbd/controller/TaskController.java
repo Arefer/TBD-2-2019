@@ -4,6 +4,7 @@ package com.usach.tbd.controller;
 import com.usach.tbd.model.Emergency;
 import com.usach.tbd.model.Task;
 import com.usach.tbd.repository.TaskRepository;
+import com.usach.tbd.repository.VolunteerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -14,10 +15,12 @@ import java.util.Optional;
 @RequestMapping(value = "/tasks")
 public class TaskController {
     private TaskRepository taskRepository;
+    private VolunteerRepository volunteerRepository;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository) {
+    public TaskController(TaskRepository taskRepository, VolunteerRepository volunteerRepository) {
         this.taskRepository = taskRepository;
+        this.volunteerRepository = volunteerRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -56,5 +59,13 @@ public class TaskController {
             this.taskRepository.delete(task.get());
         }
         return null;
+    }
+
+    @RequestMapping(value = "/assignVolunteer/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public Task assignVolunteer(@PathVariable Long id, @RequestParam Long idVolunteer) {
+        Task task = this.taskRepository.findById(id).get();
+        task.getVolunteers().add(volunteerRepository.findById(idVolunteer).get());
+        return this.taskRepository.save(task);
     }
 }
