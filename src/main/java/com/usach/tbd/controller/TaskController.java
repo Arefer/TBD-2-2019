@@ -3,7 +3,9 @@ package com.usach.tbd.controller;
 
 import com.usach.tbd.model.Emergency;
 import com.usach.tbd.model.Task;
+import com.usach.tbd.repository.EmergencyRepository;
 import com.usach.tbd.repository.TaskRepository;
+import com.usach.tbd.repository.VolunteerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -14,10 +16,14 @@ import java.util.Optional;
 @RequestMapping(value = "/tasks")
 public class TaskController {
     private TaskRepository taskRepository;
+    private VolunteerRepository volunteerRepository;
+    private EmergencyRepository emergencyRepository;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository) {
+    public TaskController(TaskRepository taskRepository, VolunteerRepository volunteerRepository, EmergencyRepository emergencyRepository) {
         this.taskRepository = taskRepository;
+        this.volunteerRepository = volunteerRepository;
+        this.emergencyRepository = emergencyRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -26,10 +32,11 @@ public class TaskController {
         return (List<Task>) this.taskRepository.findAll();
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @RequestMapping(value="/post/{emergencyId}", method = RequestMethod.POST)
     @ResponseBody
-    public Task createTask(@RequestBody Task task) {
-        return this.taskRepository.save(task);
+    public Task createTask(@PathVariable Long emergencyId, @RequestBody Task task) {
+            task.setEmergency(emergencyRepository.findById(emergencyId).get());
+            return this.taskRepository.save(task);
     }
     
 
@@ -56,5 +63,13 @@ public class TaskController {
             this.taskRepository.delete(task.get());
         }
         return null;
+    }
+
+    @RequestMapping(value = "/assignVolunteer/{id}", method = RequestMethod.PUT)
+    @ResponseBody
+    public Task assignVolunteer(@PathVariable Long id, @RequestParam Long idVolunteer) {
+        Task task = this.taskRepository.findById(id).get();
+        task.getVolunteers().add(volunteerRepository.findById(idVolunteer).get());
+        return this.taskRepository.save(task);
     }
 }
