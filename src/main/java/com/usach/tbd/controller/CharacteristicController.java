@@ -9,7 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping(value = "/Characteristics")
+@CrossOrigin(origins = "http://localhost:8080")
+@RequestMapping(value = "/characteristics")
 public class CharacteristicController {
     private CharacteristicRepository characteristicRepository;
 
