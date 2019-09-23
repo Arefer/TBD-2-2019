@@ -92,6 +92,18 @@ public class TaskController {
         }
     }
 
+    @RequestMapping(value= "/{id}/characteristics", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Characteristic> characteristicTasks(@PathVariable Long id){
+        Optional oTask = taskRepository.findById(id);
+        if (oTask.isPresent()){
+            Task task = (Task)oTask.get();
+            return new ArrayList<>(task.getCharacteristics());
+        } else {
+            return null;
+        }
+    }
+
     /**
      * Assign a list of characteristics to a task
      * @param taskId : Path argument
