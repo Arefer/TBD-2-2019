@@ -80,7 +80,7 @@ public class TaskController {
         return this.taskRepository.save(task);
     }
 
-    @RequestMapping(value= "/{id}/volunteer", method = RequestMethod.GET)
+    @RequestMapping(value= "/{id}/volunteers", method = RequestMethod.GET)
     @ResponseBody
     public List<Volunteer> volunteerTasks(@PathVariable Long id){
         Optional oTask = taskRepository.findById(id);
