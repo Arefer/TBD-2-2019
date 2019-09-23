@@ -59,10 +59,8 @@ public class Task {
             inverseJoinColumns = @JoinColumn(name = "characteristic_id", referencedColumnName = "id"))
     private Set<Characteristic> characteristics;
 
-    public void addCharacteristic(List<Characteristic> characteristics){
-        for (Characteristic characteristic: characteristics){
-            characteristics.add(characteristic);
-        }
+    public void addCharacteristics(List<Characteristic> characteristics){
+        this.characteristics.addAll(characteristics);
     }
 
     public Long getId() {
