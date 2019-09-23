@@ -1,9 +1,11 @@
 package com.usach.tbd.controller;
 
 
+import com.usach.tbd.model.Characteristic;
 import com.usach.tbd.model.Emergency;
 import com.usach.tbd.model.Task;
 import com.usach.tbd.model.Volunteer;
+import com.usach.tbd.repository.CharacteristicRepository;
 import com.usach.tbd.repository.EmergencyRepository;
 import com.usach.tbd.repository.TaskRepository;
 import com.usach.tbd.repository.VolunteerRepository;
@@ -21,12 +23,14 @@ public class TaskController {
     private TaskRepository taskRepository;
     private VolunteerRepository volunteerRepository;
     private EmergencyRepository emergencyRepository;
+    private CharacteristicRepository characteristicRepository;
 
     @Autowired
-    public TaskController(TaskRepository taskRepository, VolunteerRepository volunteerRepository, EmergencyRepository emergencyRepository) {
+    public TaskController(TaskRepository taskRepository, VolunteerRepository volunteerRepository, EmergencyRepository emergencyRepository, CharacteristicRepository characteristicRepository) {
         this.taskRepository = taskRepository;
         this.volunteerRepository = volunteerRepository;
         this.emergencyRepository = emergencyRepository;
+        this.characteristicRepository = characteristicRepository;
     }
 
     @RequestMapping(method = RequestMethod.GET)
@@ -85,6 +89,26 @@ public class TaskController {
             return new ArrayList<>(task.getVolunteers());
         } else {
             return null;
+        }
+    }
+
+    /**
+     * Assign a list of characteristics to a task
+     * @param taskId : Path argument
+     * @param characteristicsIds : List of characteristics ids
+     */
+    @RequestMapping(value = "/{taskId}/addCharacteristics", method = RequestMethod.POST)
+    public void addCharacteristics(@PathVariable Long taskId, @RequestBody List<Long> characteristicsIds){
+        Optional oTask = taskRepository.findById(taskId);
+        if (oTask.isPresent()){
+            Task task = (Task)oTask.get();
+            ArrayList<Characteristic> characteristics = new ArrayList<>();
+            for (Long characteristicId : characteristicsIds){
+                Optional oCharacteristic = characteristicRepository.findById(characteristicId);
+                if (oCharacteristic.isPresent()) characteristics.add((Characteristic) oCharacteristic.get());
+            }
+            task.addCharacteristics(characteristics);
+            taskRepository.save(task);
         }
     }
 }
