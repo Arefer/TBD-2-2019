@@ -52,15 +52,15 @@ public class Volunteer {
     @Column(name = "last_updated_at")
     private Date lastUpdatedAt = new Date();
 
-    @ManyToMany(mappedBy = "volunteers", fetch=FetchType.EAGER)
+    /*@ManyToMany(mappedBy = "volunteers", fetch=FetchType.LAZY)
     private Set<Task> tasks;
 
-    @ManyToMany(mappedBy = "volunteers", fetch=FetchType.EAGER)
-    private Set<Emergency> emergencies;
+    @ManyToMany(mappedBy = "volunteers", fetch=FetchType.LAZY)
+    private Set<Emergency> emergencies;*/
 
-    @OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL )
-    @JsonIgnoreProperties("volunteer")
-    private Set<CharacteristicVolunteer> characteristics = new HashSet<>();
+    //@OneToMany(mappedBy = "volunteer", cascade = CascadeType.ALL )
+    //@JsonIgnoreProperties("volunteer")
+    //private Set<CharacteristicVolunteer> characteristics = new HashSet<>();
 
     public Volunteer() {
     }
@@ -101,19 +101,19 @@ public class Volunteer {
     }
 
     // characteristics
-    public Set<CharacteristicVolunteer> getCharacteristics() {
+    /*public Set<CharacteristicVolunteer> getCharacteristics() {
         return characteristics;
     }
 
     public void setCharacteristics(Set<CharacteristicVolunteer> characteristics) {
         this.characteristics = characteristics;
-    }
+    }*/
 
     public void addCharacteristic(Characteristic characteristic, int score){
         CharacteristicVolunteerId cvid = new CharacteristicVolunteerId(characteristic.getId(), this.id);
         CharacteristicVolunteer cv = new CharacteristicVolunteer(this, characteristic, score);
         cv.setId(cvid);
-        characteristics.add(cv);
+        //characteristics.add(cv);
     }
 
     //Rut
@@ -184,8 +184,7 @@ public class Volunteer {
                 getRut().equals(volunteer.getRut()) &&
                 getPhone().equals(volunteer.getPhone()) &&
                 getEmail().equals(volunteer.getEmail()) &&
-                getAddress().equals(volunteer.getAddress()) &&
-                postedAt.equals(volunteer.postedAt);
+                getAddress().equals(volunteer.getAddress());
     }
 
     @Override
