@@ -31,6 +31,9 @@ public class Emergency {
 
     private String type;
 
+    private float latitude;
+
+    private float altitude;
 
     @Temporal(TemporalType.TIMESTAMP)
     @CreatedDate

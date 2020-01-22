@@ -28,15 +28,7 @@ public class Volunteer {
 
     private String password;
 
-    private String rut;
-
     private String sex;
-
-    private String phone;
-
-    private String email;
-
-    private String address;
 
     private float latitude;
 
@@ -115,44 +107,6 @@ public class Volunteer {
         cv.setId(cvid);
         //characteristics.add(cv);
     }
-
-    //Rut
-    public String getRut() {
-        return rut;
-    }
-
-    public void setRut(String rut) {
-        this.rut = rut;
-    }
-
-    //Sex
-    public String getSex() { return sex; }
-
-    public void setSex(String sex) { this.sex = sex; }
-
-    //Telephone
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
-
-    //Email
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    //Address
-    public String getAddress() { return address; }
-
-    public void setAddress(String address) { this.address = address; }
-
     //Latitude
     public float getLatitude() { return latitude; }
 
@@ -163,49 +117,6 @@ public class Volunteer {
 
     public void setLongitude(float longitude) { this.longitude = longitude; }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId(), getName(), getLastName(), getUserName(), getPassword(), getRut(), getSex(), getPhone(), getEmail(), getAddress(), getLatitude(), getLongitude());
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Volunteer)) return false;
-        Volunteer volunteer = (Volunteer) o;
-        return getSex().equals(volunteer.getSex()) &&
-                Float.compare(volunteer.getLatitude(), getLatitude()) == 0 &&
-                Float.compare(volunteer.getLongitude(), getLongitude()) == 0 &&
-                getId().equals(volunteer.getId()) &&
-                getName().equals(volunteer.getName()) &&
-                getLastName().equals(volunteer.getLastName()) &&
-                getUserName().equals(volunteer.getUserName()) &&
-                getPassword().equals(volunteer.getPassword()) &&
-                getRut().equals(volunteer.getRut()) &&
-                getPhone().equals(volunteer.getPhone()) &&
-                getEmail().equals(volunteer.getEmail()) &&
-                getAddress().equals(volunteer.getAddress());
-    }
-
-    @Override
-    public String toString() {
-        return "Volunteer{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", userName='" + userName + '\'' +
-                ", password='" + password + '\'' +
-                ", rut='" + rut + '\'' +
-                ", sex=" + sex +
-                ", phone='" + phone + '\'' +
-                ", email='" + email + '\'' +
-                ", address='" + address + '\'' +
-                ", latitude=" + latitude +
-                ", longitude=" + longitude +
-                ", postedAt=" + postedAt +
-                ", lastUpdatedAt=" + lastUpdatedAt +
-                '}';
-    }
 }
 
 
